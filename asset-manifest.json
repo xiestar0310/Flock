@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Flock/static/css/main.64bc34eb.chunk.css",
+    "main.js": "/Flock/static/js/main.cd499cbb.chunk.js",
+    "main.js.map": "/Flock/static/js/main.cd499cbb.chunk.js.map",
+    "runtime-main.js": "/Flock/static/js/runtime-main.d10809c1.js",
+    "runtime-main.js.map": "/Flock/static/js/runtime-main.d10809c1.js.map",
+    "static/js/2.e6a5236e.chunk.js": "/Flock/static/js/2.e6a5236e.chunk.js",
+    "static/js/2.e6a5236e.chunk.js.map": "/Flock/static/js/2.e6a5236e.chunk.js.map",
+    "index.html": "/Flock/index.html",
+    "precache-manifest.906a1c6c86b53f50449e0441174f3321.js": "/Flock/precache-manifest.906a1c6c86b53f50449e0441174f3321.js",
+    "service-worker.js": "/Flock/service-worker.js",
+    "static/css/main.64bc34eb.chunk.css.map": "/Flock/static/css/main.64bc34eb.chunk.css.map",
+    "static/js/2.e6a5236e.chunk.js.LICENSE.txt": "/Flock/static/js/2.e6a5236e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d10809c1.js",
+    "static/js/2.e6a5236e.chunk.js",
+    "static/css/main.64bc34eb.chunk.css",
+    "static/js/main.cd499cbb.chunk.js"
+  ]
+}
