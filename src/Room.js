@@ -21,7 +21,7 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
         }
     }, 1000);
   };
-    
+
   useEffect(() => {
     setHours(("0" + Math.floor(countTimer / 3600000)).slice(-2));
     setMin(("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2));
@@ -38,9 +38,9 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
       setParticipants(prevParticipants => [...prevParticipants, participant]);
     };
 
-    const participantDisconnected = participant => {
-      setParticipants(prevParticipants =>
-        prevParticipants.filter(p => p !== participant)
+    const participantDisconnected = (participant) => {
+      setParticipants((prevParticipants) =>
+        prevParticipants.filter((p) => p !== participant)
       );
     };
 
@@ -65,15 +65,17 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
           setBeginTime(new Date(rr.data.dateCreated).getTime());
       }
       setRoom(room);
-      room.on('participantConnected', participantConnected);
-      room.on('participantDisconnected', participantDisconnected);
+      room.on("participantConnected", participantConnected);
+      room.on("participantDisconnected", participantDisconnected);
       room.participants.forEach(participantConnected);
     });
 
     return () => {
-      setRoom(currentRoom => {
-        if (currentRoom && currentRoom.localParticipant.state === 'connected') {
-          currentRoom.localParticipant.tracks.forEach(function(trackPublication) {
+      setRoom((currentRoom) => {
+        if (currentRoom && currentRoom.localParticipant.state === "connected") {
+          currentRoom.localParticipant.tracks.forEach(function (
+            trackPublication
+          ) {
             trackPublication.track.stop();
           });
           
@@ -86,7 +88,7 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
     };
   }, [roomName, token]);
 
-  const remoteParticipants = participants.map(participant => (
+  const remoteParticipants = participants.map((participant) => (
     <Participant key={participant.sid} participant={participant} />
   ));
 
@@ -102,7 +104,7 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
             participant={room.localParticipant}
           />
         ) : (
-          ''
+          ""
         )}
       </div>
       <h3>Remote Participants</h3>
