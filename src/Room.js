@@ -22,7 +22,8 @@ const Room = ({
   const [hour, setHours] = useState(null);
   const [min, setMin] = useState(null);
   const [sec, setSec] = useState(null);
-
+  const [working, setWorking] = useState(true);
+    
   const startTimer = () => {
     setInterval(() => {
       if (beginTime) {
@@ -36,6 +37,9 @@ const Room = ({
     setHours(("0" + Math.floor(countTimer / 3600000)).slice(-2));
     setMin(("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2));
     setSec(("0" + (Math.floor(countTimer / 1000) % 60)).slice(-2));
+    if (!!breakTime && !!workTime){
+        setWorking(!!((parseInt(hour)*60+parseInt(min)) % (parseInt(breakTime)+parseInt(workTime)) < workTime)?true:false); 
+    }
   }, [countTimer]);
 
   useEffect(() => {
@@ -54,19 +58,22 @@ const Room = ({
     };
 
     Video.connect(token, {
-      name: roomName,
-    }).then(async (room) => {
-      const rr = await getRoom({ sid: room.sid });
-      if (workTime && breakTime) {
-        await setFireRoom({
-          sid: room.sid,
-          workTime: workTime,
-          breakTime: breakTime,
-        });
-      } else {
-        const times = await getFireTime({ sid: room.sid });
-        setBreakTime(times.data.restTime);
-        setWorkTime(times.data.workTime);
+      name: roomName
+    }).then(async(room) => {
+      const rr = await getRoom({"sid":room.sid});
+      if (workTime && breakTime){
+          await setFireRoom({
+              "sid": room.sid, 
+              "workTime": workTime, 
+              "breakTime": breakTime,
+          }
+          );
+      }else{
+          const times = await getFireTime({"sid":room.sid});
+          if (times.data){
+              setBreakTime(times.data.restTime);
+              setWorkTime(times.data.workTime);
+          }
       }
       if (rr.status === 200) {
         setRoomDetails(rr.data);
@@ -114,6 +121,8 @@ const Room = ({
             <h5>
               Total Session Time: {beginTime ? hour + ":" + min + ":" + sec : 0}
             </h5>
+            <h5>{!!workTime && !!breakTime ? ("Work: " + workTime + "mins") + ("Break: " + breakTime + "mins"): null}</h5>
+            <h5>{working ? "Work" : "Break"}</h5>
             <br />
             <Button className="logoutBtn" onClick={handleLogout}>
               Log Out
