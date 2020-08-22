@@ -103,6 +103,7 @@ const Room = ({
           sid: room.sid,
           workTime: workTime,
           breakTime: breakTime,
+		  startTime: (new Date(rr.data.dateCreated).getTime()),
         });
       } else {
         const times = await getFireTime({ sid: room.sid });
