@@ -6,11 +6,13 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [countTimer, setCountTimer] = useState(0);
-  const [startTime, setStartTime] = useState(0);
+  const [startTime, setStartTime] = useState(Date.now());
     
   const startTimer = () => {
+    
     setInterval(() => {
-        setCountTimer(Date.now() - startTime);
+        const elapsed = new Date() - startTime;
+        setCountTimer(elapsed);
     }, 1000);
   };
     
@@ -34,7 +36,6 @@ const Room = ({ roomName, token, handleLogout }) => {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
-      setStartTime(Date.now());
     });
 
     return () => {
@@ -59,7 +60,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   return (
     <div className="room">
       <h2>Room: {roomName}</h2>
-      <h2>{startTime != 0 ? parseInt(countTimer/1000.0) : 0}</h2>
+      <h2>{startTime != 0 ? ("0" + Math.floor(countTimer / 3600000)).slice(-2)+":"+("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2)+":"+("0" + (Math.floor(countTimer / 1000) % 60)).slice(-2) : 0}</h2>
       <button onClick={handleLogout}>Log out</button>
       <div className="local-participant">
         {room ? (
