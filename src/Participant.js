@@ -135,7 +135,7 @@ const Participant = ({ participant, remote }) => {
               maxLength="150"
             ></Form.Control>
             <Form.Text className="text-muted">
-              Let others know where you went
+              Let others know where you went and/or your current status
             </Form.Text>
           </Form.Group>
         </Form>
