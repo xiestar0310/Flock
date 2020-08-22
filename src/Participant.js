@@ -8,7 +8,6 @@ import {
   FaVolumeMute,
 } from "react-icons/fa";
 import { Button } from "react-bootstrap";
-import { Draggable } from "react-draggable";
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -101,22 +100,20 @@ const Participant = ({ participant }) => {
   };
 
   return (
-    <Draggable>
-      <div className="participant">
-        <h3>{participant.identity}</h3>
-        <video ref={videoRef} autoPlay={true} />
-        <audio ref={audioRef} autoPlay={true} muted={volumeButton} />
-        <Button onClick={() => handleChange("volume")} className="muteButton">
-          {!!volumeButton ? <FaVolumeMute /> : <FaVolumeUp />}
-        </Button>
-        <Button onClick={() => handleChange("mute")} className="muteButton">
-          {!!muteButton ? <FaMicrophoneSlash /> : <FaMicrophone />}
-        </Button>
-        <Button onClick={() => handleChange("video")} className="muteButton">
-          {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
-        </Button>
-      </div>
-    </Draggable>
+    <div className="participant">
+      <h6>{participant.identity}</h6>
+      <video ref={videoRef} autoPlay={true} />
+      <audio ref={audioRef} autoPlay={true} muted={volumeButton} />
+      <Button onClick={() => handleChange("volume")} className="muteButton">
+        {!!volumeButton ? <FaVolumeMute /> : <FaVolumeUp />}
+      </Button>
+      <Button onClick={() => handleChange("mute")} className="muteButton">
+        {!!muteButton ? <FaMicrophoneSlash /> : <FaMicrophone />}
+      </Button>
+      <Button onClick={() => handleChange("video")} className="muteButton">
+        {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
+      </Button>
+    </div>
   );
 };
 

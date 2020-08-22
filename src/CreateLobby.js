@@ -48,6 +48,7 @@ const CreateLobby = ({
               value={workTime}
               onChange={handleWorkTimeChange}
               placeholder="minutes"
+              required
             ></Form.Control>
           </Col>
           <Col>
@@ -58,6 +59,7 @@ const CreateLobby = ({
               value={breakTime}
               onChange={handleBreakTimeChange}
               placeholder="minutes"
+              required
             />
           </Col>
         </Row>

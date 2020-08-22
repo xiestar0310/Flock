@@ -38,7 +38,7 @@ main {
 }
 
 form {
-  max-width: 300px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -88,6 +88,8 @@ button:hover {
 
 .muteButton {
   background: rgba(0, 0, 0, 0);
+  margin: 0.5em;
+  -webkit-margin-collapse: collapse;
 }
 
 .muteButton:hover {
@@ -103,9 +105,10 @@ button:hover {
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 0 2em 2em;
+  text-align: center;
 }
 .participant {
-  background: #333e5a;
+  background: #5bc0de;
   padding: 10px;
   border-radius: 6px;
   display: inline-block;
@@ -126,6 +129,7 @@ video {
   display: block;
   margin: 0 auto;
   border-radius: 6px;
+  border: solid 3px black;
 }
 
 footer {
