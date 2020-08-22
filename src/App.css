@@ -167,3 +167,11 @@ footer a {
   min-width: 70%;
   margin-left: 4em;
 }
+
+.flockModalBody {
+  margin: 1em;
+}
+
+.flockPic {
+  width: 4em;
+}
