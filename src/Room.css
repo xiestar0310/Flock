@@ -7,3 +7,19 @@
 .local-participant {
   width: 300px;
 }
+
+.logoutBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 1.5em;
+}
+
+.workIndicator {
+  width: 80%;
+}
+
+.smSeperator {
+  display: block;
+  height: 8px;
+}
