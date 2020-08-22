@@ -14,6 +14,29 @@ const Room = ({
   setWorkTime,
   setBreakTime,
 }) => {
+  let motivationalQuotes = [
+    "“It does not matter how slowly you go as long as you do not stop.” - Confucius",
+    "“We are what we repeatedly do. Excellence, then, is not an act, but a habit.” - Aristotle",
+    "“Setting goals is the first step in turning the invisible into the visible.” - Tony Robbins",
+    "“When something is important enough, you do it even if the odds are not in your favour.” - Elon Musk",
+    "“It is our choices that show what we truly are, far more than our abilities.” - J.K. Rowling",
+    "“Impossible is for the unwilling.” - John Keats",
+    "“Creativity is intelligence having fun.” - Albert Einstein ",
+    "“An obstacle is often a stepping stone.” - Prescott Bush",
+    "“I never lose. I either win or learn.” - Nelson Mandela",
+    "“Sometimes, things may not go your way, but the effort should be there every single night.” - Michael Jordan",
+  ];
+
+  let breakActivities = [
+    "take a karaoke break, play and sing along to a song you like",
+    "play a quick round of charades",
+    <a href="https://skribbl.io/">try out this online game</a>,
+    "see who can take the best picture during the break time",
+    "stand up and do 30 jumping jacks",
+    "try doing 20 squats",
+    "stand up and touch every corner of the room",
+  ];
+
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [countTimer, setCountTimer] = useState(0);
@@ -23,6 +46,12 @@ const Room = ({
   const [min, setMin] = useState(null);
   const [sec, setSec] = useState(null);
   const [working, setWorking] = useState(true);
+  const [quote, setQuote] = useState(
+    motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]
+  );
+  const [breakActivity, setBreakActivity] = useState(
+    breakActivities[Math.floor(Math.random() * breakActivities.length)]
+  );
 
   const startTimer = () => {
     setInterval(() => {
@@ -145,11 +174,13 @@ const Room = ({
             <h5>
               {working ? (
                 <Alert className="workIndicator" variant="success">
-                  Work
+                  Work Time
+                  <p className="quote">{quote}</p>
                 </Alert>
               ) : (
                 <Alert className="workIndicator" variant="danger">
-                  Break
+                  Break Time
+                  <p className="quote">Suggestion: {breakActivity}</p>
                 </Alert>
               )}
             </h5>
