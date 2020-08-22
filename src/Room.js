@@ -12,6 +12,7 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
   const [hour,setHours] = useState(null);
   const [min, setMin] = useState(null);
   const [sec, setSec] = useState(null);
+  const [working, setWorking] = useState(true);
     
   const startTimer = () => {
     setInterval(() => {
@@ -26,7 +27,12 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
     setHours(("0" + Math.floor(countTimer / 3600000)).slice(-2));
     setMin(("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2));
     setSec(("0" + (Math.floor(countTimer / 1000) % 60)).slice(-2));
+    if (!!breakTime && !!workTime){
+        setWorking(!!((parseInt(hour)*60+parseInt(min)) % (parseInt(breakTime)+parseInt(workTime)) < workTime)?true:false); 
+    }
   }, [countTimer]);
+    
+  
     
   useEffect(() => {
       startTimer();
@@ -57,8 +63,10 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
           );
       }else{
           const times = await getFireTime({"sid":room.sid});
-          setBreakTime(times.data.restTime);
-          setWorkTime(times.data.workTime);
+          if (times.data){
+              setBreakTime(times.data.restTime);
+              setWorkTime(times.data.workTime);
+          }
       }
       if (rr.status === 200){ 
           setRoomDetails(rr.data);
@@ -94,6 +102,8 @@ const Room = ({ roomName, token, handleLogout, workTime, breakTime, setWorkTime,
     <div className="room">
       <h2>Room: {roomName}</h2>
       <h2>{beginTime ? hour+":"+min+":"+sec : 0}</h2>
+      <h2>{!!workTime && !!breakTime?("Work: " + workTime + " mins  ")+("Break: " + breakTime + " mins"):null}</h2>
+      <h2>{working?"Work":"Break"}</h2>
       <button onClick={handleLogout}>Log out</button>
       <div className="local-participant">
         {room ? (
