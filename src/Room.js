@@ -103,7 +103,7 @@ const Room = ({
           sid: room.sid,
           workTime: workTime,
           breakTime: breakTime,
-		  startTime: (new Date(rr.data.dateCreated).getTime()),
+          startTime: new Date(rr.data.dateCreated).getTime(),
         });
       } else {
         const times = await getFireTime({ sid: room.sid });
@@ -158,9 +158,17 @@ const Room = ({
               Flock room!
             </h5>
             <div className="smSeperator" />
-            <h5>Room: {roomName}</h5>
+            <p>
+              <b>Room:</b> {roomName}
+            </p>
             <p>Invite others by telling them your room name</p>
-            <div className="smSeperator" />
+            <p id="flockroomid">
+              <b>Room ID:</b> {!!room ? room.sid : null}
+            </p>
+            <p>
+              Enter this ID into your chrome extension to view your work status
+              in other tabs
+            </p>
             <h5>
               Total Session Time: {beginTime ? hour + ":" + min + ":" + sec : 0}
             </h5>
@@ -206,7 +214,6 @@ const Room = ({
       </Card>
       <h3>Remote Participants</h3>
       <div className="remote-participants">{remoteParticipants}</div>
-	  <div id="flockroomid">{!!room ? room.sid : null}</div>
     </div>
   );
 };

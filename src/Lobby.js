@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./Lobby.css";
-import { Button, Row, Col, Modal, Popover } from "react-bootstrap";
+import { Button, Row, Col, Modal } from "react-bootstrap";
 import FlyingGoose from "./assets/goose-fly.png";
-import EmotePanel from "./EmotePanel";
 
 const Lobby = ({ handleCreateLobby, handleJoinLobby }) => {
   const [show, setShow] = useState(false);

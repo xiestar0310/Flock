@@ -25,8 +25,8 @@ const Participant = ({ participant, remote }) => {
   const audioRef = useRef();
 
   const trackpubsToTracks = (trackMap) => {
-    Array.from(trackMap.values()).forEach(p => {
-        console.log(p);
+    Array.from(trackMap.values()).forEach((p) => {
+      console.log(p);
     });
     return Array.from(trackMap.values())
       .map((publication) => publication.track)
@@ -125,7 +125,7 @@ const Participant = ({ participant, remote }) => {
       {!remote && (
         <Form className="statusForm">
           <Form.Group>
-            <Form.Label>Set you status:</Form.Label>
+            <Form.Label>Set your status:</Form.Label>
             <Form.Control
               type="text"
               as="textarea"
