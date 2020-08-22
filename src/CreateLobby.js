@@ -13,6 +13,7 @@ const CreateLobby = ({
   handleBreakTimeChange,
   handleSubmit,
 }) => {
+  
   return (
     <div className="lobbyContainer">
       <h3>Create a Room</h3>
@@ -61,7 +62,6 @@ const CreateLobby = ({
             />
           </Col>
         </Row>
-
         <Button variant="primary" type="submit">
           Submit
         </Button>

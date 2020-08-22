@@ -20,6 +20,9 @@ const Participant = ({ participant }) => {
   const audioRef = useRef();
 
   const trackpubsToTracks = (trackMap) => {
+    Array.from(trackMap.values()).forEach(p => {
+        console.log(p);
+    });
     return Array.from(trackMap.values())
       .map((publication) => publication.track)
       .filter((track) => track !== null);
@@ -80,11 +83,9 @@ const Participant = ({ participant }) => {
     else if (type === "video") {
       setVideoButton(!videoButton);
       if (!videoButton) {
-        console.log(videoRef);
         const videoTrack = videoTracks[0];
         if (videoTrack) videoTrack.detach();
       } else {
-        console.log(videoRef);
         const videoTrack = videoTracks[0];
         if (videoTrack) videoTrack.attach(videoRef.current);
       }
@@ -101,7 +102,6 @@ const Participant = ({ participant }) => {
   };
 
   return (
-    <Draggable>
       <div className="participant">
         <h3>{participant.identity}</h3>
         <video ref={videoRef} autoPlay={true} />
@@ -116,7 +116,6 @@ const Participant = ({ participant }) => {
           {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
         </Button>
       </div>
-    </Draggable>
   );
 };
 
