@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import Participant from './Participant';
+import { getRoom } from "./utils";
 
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [countTimer, setCountTimer] = useState(0);
-  const [startTime, setStartTime] = useState(Date.now());
+  const [beginTime, setBeginTime] = useState(null);
+  const [roomDetails, setRoomDetails] = useState(null);   
     
   const startTimer = () => {
-    
     setInterval(() => {
-        const elapsed = new Date() - startTime;
-        setCountTimer(elapsed);
+        if (beginTime){
+            const elapsed = new Date() - beginTime;
+            setCountTimer(elapsed);
+        }
     }, 1000);
   };
     
   useEffect(() => {
-    startTimer();
+      startTimer();
+  }, [beginTime]);
+    
+  useEffect(() => {
       
     const participantConnected = participant => {
       setParticipants(prevParticipants => [...prevParticipants, participant]);
@@ -31,7 +37,12 @@ const Room = ({ roomName, token, handleLogout }) => {
 
     Video.connect(token, {
       name: roomName
-    }).then(room => {
+    }).then(async(room) => {
+      const rr = await getRoom({"sid":room.sid});
+      if (rr.status === 200){ 
+          setRoomDetails(rr.data);
+          setBeginTime(new Date(rr.data.dateCreated).getTime());
+      }
       setRoom(room);
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
@@ -44,6 +55,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           currentRoom.localParticipant.tracks.forEach(function(trackPublication) {
             trackPublication.track.stop();
           });
+          
           currentRoom.disconnect();
           return null;
         } else {
@@ -60,7 +72,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   return (
     <div className="room">
       <h2>Room: {roomName}</h2>
-      <h2>{startTime != 0 ? ("0" + Math.floor(countTimer / 3600000)).slice(-2)+":"+("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2)+":"+("0" + (Math.floor(countTimer / 1000) % 60)).slice(-2) : 0}</h2>
+      <h2>{beginTime ? ("0" + Math.floor(countTimer / 3600000)).slice(-2)+":"+("0" + (Math.floor(countTimer / 60000) % 60)).slice(-2)+":"+("0" + (Math.floor(countTimer / 1000) % 60)).slice(-2) : 0}</h2>
       <button onClick={handleLogout}>Log out</button>
       <div className="local-participant">
         {room ? (
