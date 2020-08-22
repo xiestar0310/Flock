@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -7,15 +7,20 @@ import {
   FaVolumeUp,
   FaVolumeMute,
 } from "react-icons/fa";
-import { Button } from "react-bootstrap";
-import { Draggable } from "react-draggable";
+import { Button, Form } from "react-bootstrap";
 
-const Participant = ({ participant }) => {
+const Participant = ({ participant, remote }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [muteButton, setMuteButton] = useState(false);
   const [volumeButton, setVolumeButton] = useState(false);
   const [videoButton, setVideoButton] = useState(false);
+  const [personalStatus, setPersonalStatus] = useState("");
+
+  const handlePersonalStatus = useCallback((event) => {
+    setPersonalStatus(event.target.value);
+  });
+
   const videoRef = useRef();
   const audioRef = useRef();
 
@@ -102,8 +107,9 @@ const Participant = ({ participant }) => {
   };
 
   return (
+    <div className="d-flex">
       <div className="participant">
-        <h3>{participant.identity}</h3>
+        <h6>{participant.identity}</h6>
         <video ref={videoRef} autoPlay={true} />
         <audio ref={audioRef} autoPlay={true} muted={volumeButton} />
         <Button onClick={() => handleChange("volume")} className="muteButton">
@@ -116,6 +122,26 @@ const Participant = ({ participant }) => {
           {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
         </Button>
       </div>
+      {!remote && (
+        <Form className="statusForm">
+          <Form.Group>
+            <Form.Label>Set you status:</Form.Label>
+            <Form.Control
+              type="text"
+              as="textarea"
+              rows="2"
+              id="status"
+              onChange={handlePersonalStatus}
+              maxLength="150"
+            ></Form.Control>
+            <Form.Text className="text-muted">
+              Let others know where you went
+            </Form.Text>
+          </Form.Group>
+        </Form>
+      )}
+      <p className="personalStatus">{personalStatus}</p>
+    </div>
   );
 };
 

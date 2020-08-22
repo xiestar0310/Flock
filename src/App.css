@@ -38,7 +38,7 @@ main {
 }
 
 form {
-  max-width: 300px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -88,6 +88,8 @@ button:hover {
 
 .muteButton {
   background: rgba(0, 0, 0, 0);
+  margin: 0.5em;
+  -webkit-margin-collapse: collapse;
 }
 
 .muteButton:hover {
@@ -103,9 +105,10 @@ button:hover {
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 0 2em 2em;
+  text-align: center;
 }
 .participant {
-  background: #333e5a;
+  background: #5bc0de;
   padding: 10px;
   border-radius: 6px;
   display: inline-block;
@@ -122,10 +125,11 @@ button:hover {
 
 video {
   width: 100%;
-  max-width: 300px;
   display: block;
+  min-width: 270px;
   margin: 0 auto;
   border-radius: 6px;
+  border: solid 3px black;
 }
 
 footer {
@@ -143,4 +147,31 @@ footer a {
 .gooseIcon {
   width: 20px;
   height: auto;
+}
+
+.personalStatus {
+  position: absolute;
+  top: 0;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 50px 20px 20px 20px;
+  padding: 0.5em;
+}
+
+.statusForm {
+  text-align: left;
+  min-width: 70%;
+  margin-left: 4em;
+}
+
+.flockModalBody {
+  margin: 1em;
+}
+
+.flockPic {
+  width: 4em;
 }

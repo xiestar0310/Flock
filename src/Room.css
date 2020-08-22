@@ -1,0 +1,31 @@
+.localParticipantContainer {
+  margin: 3em;
+  border-radius: 1em;
+  padding: 1.5em 1.5em 0 1.5em;
+}
+
+.local-participant {
+  width: 300px;
+}
+
+.logoutBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 1.5em;
+}
+
+.workIndicator {
+  width: 80%;
+}
+
+.smSeperator {
+  display: block;
+  height: 8px;
+}
+
+.quote {
+  color: grey;
+  font-size: 10px;
+  margin-top: 8px;
+}
