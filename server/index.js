@@ -9,14 +9,31 @@ require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
-//console.log(accountSid);
-//console.log(authToken);
 const twilioClient = require('twilio')(accountSid, authToken);
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
+
+
+const firebase = require("firebase/app");
+require("firebase/database");
+
+const firebaseConfig = {
+    apiKey: process.env.FB_apiKey,
+    authDomain: process.env.FB_authDomain,
+    databaseURL: process.env.FB_databaseURL,
+    projectId: process.env.FB_projectId,
+    storageBucket: process.env.FB_storageBucket,
+    messagingSenderId: process.env.FB_messagingSenderId,
+    appId: process.env.FB_appId,
+    measurementId: process.env.FB_measurementId
+};
+//console.log(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
 
 
 
@@ -59,6 +76,33 @@ app.post('/video/roomInfo', (req, res) => {
     console.log(err);
     res.status(500).json("Cannot fetch roominfo");
   }
+});
+
+app.post("/video/setFireRoom", (req, res) => {
+    try{
+        database.ref("rooms/" + req.body.sid).set({
+            workTime: req.body.workTime,
+            restTime: req.body.breakTime,
+        });
+        res.status(200).json("cool");
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+app.post("/video/getFireTime", (req, res) => {
+    try{
+        const ref = database.ref("rooms/"+ req.body.sid);
+        console.log(req.body.sid);
+        ref.once("value", values => {
+            console.log(req.body.sid);
+            res.status(200).json(values);
+        });
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 app.listen(3001, () =>

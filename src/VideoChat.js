@@ -62,7 +62,7 @@ const VideoChat = () => {
   let render;
   if (token) {
     render = (
-      <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+      <Room roomName={roomName} token={token} handleLogout={handleLogout} workTime={workTime} breakTime={breakTime} setWorkTime={setWorkTime} setBreakTime={setBreakTime}/>
     );
   } else if (createLobby) {
     render = (
