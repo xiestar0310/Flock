@@ -1,32 +1,28 @@
 require("dotenv").config();
 var path = require("path");
+var AccessToken = require("twilio").jwt.AccessToken;
+var VideoGrant = AccessToken.VideoGrant;
 var express = require("express");
 var webpack = require("webpack");
 var faker = require("faker");
-var AccessToken = require("twilio").jwt.AccessToken;
-var VideoGrant = AccessToken.VideoGrant;
 
 var app = express();
 if(process.env.NODE_ENV === "DEV") { // Configuration for development environment
     var webpackDevMiddleware = require("webpack-dev-middleware");
-    var webpackHotMiddleware = require("webpack-hot-middleware");
     var webpackConfig = require("./webpack.config.js");
     const webpackCompiler = webpack(webpackConfig);
-    app.use(webpackDevMiddleware(webpackCompiler, {
-      hot: true
-    }));
-    app.use(webpackHotMiddleware(webpackCompiler));
+    app.use(webpackDevMiddleware(webpackCompiler));
     app.use(express.static(path.join(__dirname, "app")));
 } else if(process.env.NODE_ENV === "PROD") { // Configuration for production environment
     app.use(express.static(path.join(__dirname, "dist")));
 }
 
-app.use(function(req, res, next){
-    console.log("Request from: ", req.url);
-    next();
-})
 
-// Endpoint to generate access token
+/*
+Generate an Access Token for a chat application user - it generates a random
+username for the client requesting a token, and takes a device ID as a query
+parameter.
+*/
 app.get("/token", function(request, response) {
     var identity = faker.name.findName();
 
@@ -41,17 +37,17 @@ app.get("/token", function(request, response) {
     // Assign the generated identity to the token
     token.identity = identity;
 
-    const grant = new VideoGrant();
-   // Grant token access to the Video API features
-   token.addGrant(grant);
+    //grant the access token Twilio Video capabilities
+    var grant = new VideoGrant();
+    // grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
+    token.addGrant(grant);
 
-   // Serialize the token to a JWT string and include it in a JSON response
-   response.send({
-       identity: identity,
-       token: token.toJwt()
-   });
+    // Serialize the token to a JWT string and include it in a JSON response
+    response.send({
+        identity: identity,
+        token: token.toJwt()
+    });
 });
-
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

@@ -7,9 +7,7 @@ require("dotenv").config();
 var configFunc = function(){
     var config = {
         devtool: "source-map",
-        entry: [
-            __dirname + "/app/app.js"
-        ],
+        entry: __dirname + "/app/app.js",
         output: {
             path: __dirname + "/dist",
             filename: "bundle.js",
@@ -38,11 +36,11 @@ var configFunc = function(){
         plugins: [
             new HtmlWebpackPlugin({
                 hash: true,
-                template: path.join(__dirname , "/app/index.html"),
+                template: __dirname + "/app/index.html",
                 inject: "body"
             }),
             new webpack.BannerPlugin("React Twilio"),
-            new ExtractTextPlugin("[name]-[hash].css")
+            new ExtractTextPlugin("[name]-[hash].cssi")
         ]};
     if(process.env.NODE_ENV === "PROD") {
         config.plugins.push(new webpack.optimize.UglifyJsPlugin());
@@ -50,10 +48,6 @@ var configFunc = function(){
             name: "commons",              
             filename: "commons.js"
         }));
-    }
-    if(process.env.NODE_ENV === "DEV") {
-        config.entry.push('webpack-hot-middleware/client?reload=true');
-        config.plugins.push(new webpack.HotModuleReplacementPlugin());
     }
     return config;
 }();
