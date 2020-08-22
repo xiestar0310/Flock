@@ -22,11 +22,6 @@ header {
   margin-bottom: 2em;
 }
 
-h1 {
-  font-weight: 300;
-  padding: 0.4em 0;
-}
-
 #root {
   min-height: 100vh;
 }
@@ -134,13 +129,18 @@ video {
 }
 
 footer {
-  background: #333e5a;
-  color: #fff;
+  background: #f7f7f7;
+  color: #292b2c;
   text-align: center;
   flex-grow: 0;
-  padding: 1em 0;
+  padding: 0.5em;
 }
 
 footer a {
   color: #fff;
+}
+
+.gooseIcon {
+  width: 20px;
+  height: auto;
 }

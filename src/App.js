@@ -1,23 +1,35 @@
-import React from 'react';
-import './App.css';
-import VideoChat from './VideoChat';
+import React from "react";
+import "./App.css";
+import VideoChat from "./VideoChat";
+import GooseIcon from "./assets/goose-stand.ico";
+import GoosePic from "./assets/goose-fly.png";
+import { Navbar } from "react-bootstrap";
 
 const App = () => {
   return (
     <div className="app">
-      <header>
-        <h1>Video Chat with Hooks</h1>
-      </header>
+      <Navbar bg="dark">
+        <Navbar.Brand>
+          <img
+            alt="flying-goose"
+            src={GoosePic}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
+        </Navbar.Brand>
+      </Navbar>
+
       <main>
         <VideoChat />
       </main>
       <footer>
         <p>
-          Made with{' '}
+          Made with{" "}
           <span role="img" aria-label="React">
-            ⚛️
-          </span>{' '}
-          by <a href="https://twitter.com/philnash">philnash</a>
+            <img className="gooseIcon" src={GooseIcon} alt="standing goose" />
+          </span>{" "}
+          by Flock
         </p>
       </footer>
     </div>
