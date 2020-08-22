@@ -5,8 +5,18 @@ import Participant from './Participant';
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
-
+  const [countTimer, setCountTimer] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+    
+  const startTimer = () => {
+    setInterval(() => {
+        setCountTimer(Date.now() - startTime);
+    }, 1000);
+  };
+    
   useEffect(() => {
+    startTimer();
+      
     const participantConnected = participant => {
       setParticipants(prevParticipants => [...prevParticipants, participant]);
     };
@@ -24,6 +34,7 @@ const Room = ({ roomName, token, handleLogout }) => {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
+      setStartTime(Date.now());
     });
 
     return () => {
@@ -48,6 +59,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   return (
     <div className="room">
       <h2>Room: {roomName}</h2>
+      <h2>{startTime != 0 ? parseInt(countTimer/1000.0) : 0}</h2>
       <button onClick={handleLogout}>Log out</button>
       <div className="local-participant">
         {room ? (

@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { Button } from 'react-bootstrap';
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
-
+  const [muteButton, setMuteButton] = useState(false);
+  const [videoButton, setVideoButton] = useState(false);
   const videoRef = useRef();
   const audioRef = useRef();
 
@@ -62,11 +65,22 @@ const Participant = ({ participant }) => {
     }
   }, [audioTracks]);
 
+  const handleChange = type => {
+    if (type === "mute") setMuteButton(!muteButton);
+    else if (type === "video") setVideoButton(!videoButton);
+  };
+    
   return (
     <div className="participant">
       <h3>{participant.identity}</h3>
       <video ref={videoRef} autoPlay={true} />
-      <audio ref={audioRef} autoPlay={true} muted={true} />
+      <audio ref={audioRef} autoPlay={true} muted={muteButton} />
+      <Button onClick={() => handleChange("mute")} className="muteButton">
+        {!!muteButton ? <FaMicrophoneSlash /> : <FaMicrophone/>}
+      </Button>
+      <Button onClick={() => handleChange("video")} className="muteButton">
+        {!!videoButton ? <FaVideoSlash /> : <FaVideo/>}
+      </Button>
     </div>
   );
 };

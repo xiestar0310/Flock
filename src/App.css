@@ -85,15 +85,18 @@ button:hover {
 .room {
   position: relative;
 }
-.room button {
-  position: absolute;
-  top: 0;
-  right: 20px;
-}
 .room > h3 {
   text-align: center;
   font-weight: 300;
   margin-bottom: 1em;
+}
+
+.muteButton{
+  background: rgba(0,0,0,0);
+}
+
+.muteButton:hover{
+  box-shadow: 2px 2px 4px #0000009e;
 }
 
 .local-participant {
