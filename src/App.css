@@ -86,11 +86,11 @@ button:hover {
   margin-bottom: 1em;
 }
 
-.muteButton{
-  background: rgba(0,0,0,0);
+.muteButton {
+  background: rgba(0, 0, 0, 0);
 }
 
-.muteButton:hover{
+.muteButton:hover {
   box-shadow: 2px 2px 4px #0000009e;
 }
 
@@ -122,7 +122,7 @@ button:hover {
 
 video {
   width: 100%;
-  max-width: 600px;
+  max-width: 300px;
   display: block;
   margin: 0 auto;
   border-radius: 6px;
