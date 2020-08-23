@@ -29,7 +29,6 @@ const firebaseConfig = {
   appId: process.env.FB_appId,
   measurementId: process.env.FB_measurementId,
 };
-//console.log(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
@@ -105,11 +104,12 @@ app.post("/video/getFireTime", (req, res) => {
 
 app.post("/video/setFireParticipants", (req, res) => {
   try {
+	console.log(req.body);
     database.ref("participants/" + req.body.pid).set({
       statusMessage: req.body.statusMessage,
       emote: req.body.emote,
     });
-    res.status(200).json(values);
+    res.status(200).json("cool");
   } catch (err) {
     console.log(err);
     console.log("Participant ID post failed");
@@ -119,7 +119,7 @@ app.post("/video/setFireParticipants", (req, res) => {
 
 app.post("/video/getFireParticipants", (req, res) => {
   try {
-    const ref = database.red("participants/" + req.body.pid);
+    const ref = database.ref("participants/" + req.body.pid);
     ref.once("value", (values) => {
       res.status(200).json(values);
     });

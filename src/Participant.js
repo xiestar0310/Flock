@@ -9,6 +9,12 @@ import {
 } from "react-icons/fa";
 import { Button, Form } from "react-bootstrap";
 import { getFireParticipants } from "./utils";
+import secrets from "./secrets";
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+const firebaseConfig = secrets;
+firebase.initializeApp(firebaseConfig);
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -17,21 +23,22 @@ const Participant = ({ participant }) => {
   const [volumeButton, setVolumeButton] = useState(false);
   const [videoButton, setVideoButton] = useState(false);
 
-  const personalStatus = "retrieve from db";
+  const [personalStatus, setPersonalStatus] = useState("");
 
   const videoRef = useRef();
   const audioRef = useRef();
 
   const trackpubsToTracks = (trackMap) => {
-    Array.from(trackMap.values()).forEach((p) => {
-      console.log(p);
-    });
     return Array.from(trackMap.values())
       .map((publication) => publication.track)
       .filter((track) => track !== null);
   };
 
-  useEffect(() => {
+  useEffect(async() => {
+	const tempStatus = await getFireParticipants({"pid": participant.sid});
+	if (tempStatus.data){
+		setPersonalStatus(tempStatus.data.statusMessage);
+	}
     setVideoTracks(trackpubsToTracks(participant.videoTracks));
     setAudioTracks(trackpubsToTracks(participant.audioTracks));
 
