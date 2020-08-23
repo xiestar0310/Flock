@@ -19,14 +19,42 @@ const EmotePanel = ({ emotes, handleEmoteClick }) => {
       overlay={
         <Popover id="popover-positioned-left">
           <Popover.Content>
-            <img className="emote" src={Hundred} />
-            <img className="emote" src={Burger} />
-            <img className="emote" src={HeartEyes} />
-            <img className="emote" src={Sleepy} />
-            <img className="emote" src={Smiling} />
-            <img className="emote" src={YellowClap} />
-            <img className="emote" src={YellowWave} />
-            <TiCancel />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("hundred")}
+              src={Hundred}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("eat")}
+              src={Burger}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("heart")}
+              src={HeartEyes}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("sleepy")}
+              src={Sleepy}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("smile")}
+              src={Smiling}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("clap")}
+              src={YellowClap}
+            />
+            <img
+              className="emote"
+              onClick={() => handleEmoteClick("wave")}
+              src={YellowWave}
+            />
+            <TiCancel onClick={() => handleEmoteClick("")} />
           </Popover.Content>
         </Popover>
       }

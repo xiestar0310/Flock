@@ -9,6 +9,7 @@ import {
 } from "./utils";
 import { Button, Card, Row, Col, Alert, Form } from "react-bootstrap";
 import "./Room.css";
+import EmotePanel from "./EmotePanel";
 
 const Room = ({
   roomName,
@@ -65,13 +66,22 @@ const Room = ({
   });
 
   const submitPersonalStatus = () => {
-	setFireParticipants({
+    setFireParticipants({
       pid: room.localParticipant.sid,
       statusMessage: personalStatus,
       emote: emote,
     });
   };
-  
+
+  const handleEmoteClick = useCallback((emoteStr) => {
+    setEmote(emoteStr);
+    setFireParticipants({
+      pid: room.localParticipant.sid,
+      statusMessage: personalStatus,
+      emote: emote,
+    });
+  });
+
   const startTimer = () => {
     setInterval(() => {
       if (beginTime) {
@@ -178,6 +188,7 @@ const Room = ({
 
   return (
     <div className="room">
+      <EmotePanel handleEmoteClick={handleEmoteClick} />
       <Card className="localParticipantContainer">
         <Row>
           <Col className="text-left" md={5}>
@@ -249,10 +260,16 @@ const Room = ({
                   onChange={handlePersonalStatus}
                   maxLength="150"
                 ></Form.Control>
-				<Button onClick={submitPersonalStatus}>Submit</Button>
                 <Form.Text className="text-muted">
                   Let others know where you went and/or your current status
                 </Form.Text>
+                <Button
+                  variant="secondary"
+                  className="statusSubmitBtn"
+                  onClick={submitPersonalStatus}
+                >
+                  Submit
+                </Button>
               </Form.Group>
             </Form>
           </Col>
@@ -261,7 +278,7 @@ const Room = ({
           </Button>
         </Row>
       </Card>
-      <h5 className="remoteTitle">Remote Participants</h5>
+      <h5 className="remoteTitle">Groups Members</h5>
       <div className="remoteParticipants">{remoteParticipants}</div>
     </div>
   );

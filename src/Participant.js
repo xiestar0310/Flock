@@ -10,13 +10,58 @@ import {
 import { Button, Form } from "react-bootstrap";
 import { getFireParticipants } from "./utils";
 import secrets from "./secrets";
-import firebase from 'firebase/app';
-import 'firebase/database';
+import firebase from "firebase/app";
+import "firebase/database";
+import Hundred from "./assets/emotes/100.png";
+import Burger from "./assets/emotes/burger.png";
+import HeartEyes from "./assets/emotes/hearteyes.png";
+import Sleepy from "./assets/emotes/sleepy.png";
+import Smiling from "./assets/emotes/smiling.png";
+import YellowClap from "./assets/emotes/yellowclap.png";
+import YellowWave from "./assets/emotes/yellowwave.png";
+import { TiCancel } from "react-icons/ti";
 
 const firebaseConfig = secrets;
 firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
+
+function StrToEmote(emoteStr) {
+  const imgSource = {};
+
+  switch (emoteStr) {
+    case "hundred":
+      return (
+        <img className="displayEmote" src={Hundred} alt="displayed emoji" />
+      );
+    case "eat":
+      return (
+        <img className="displayEmote" src={Burger} alt="displayed emoji" />
+      );
+    case "heart":
+      return (
+        <img className="displayEmote" src={HeartEyes} alt="displayed emoji" />
+      );
+    case "sleepy":
+      return (
+        <img className="displayEmote" src={Sleepy} alt="displayed emoji" />
+      );
+    case "smile":
+      return (
+        <img className="displayEmote" src={Smiling} alt="displayed emoji" />
+      );
+    case "clap":
+      return (
+        <img className="displayEmote" src={YellowClap} alt="displayed emoji" />
+      );
+    case "wave":
+      return (
+        <img className="displayEmote" src={YellowWave} alt="displayed emoji" />
+      );
+    default:
+      return null;
+  }
+}
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -26,6 +71,7 @@ const Participant = ({ participant }) => {
   const [videoButton, setVideoButton] = useState(false);
 
   const [personalStatus, setPersonalStatus] = useState("");
+  const [emote, setEmote] = useState("");
 
   const videoRef = useRef();
   const audioRef = useRef();
@@ -37,19 +83,22 @@ const Participant = ({ participant }) => {
   };
 
   useEffect(() => {
-	const ref = database.ref("participants/" + participant.sid);
+    const ref = database.ref("participants/" + participant.sid);
     ref.on("value", (values) => {
-	  const temp = values.val();
-	  if (!!temp) setPersonalStatus(temp.statusMessage);
+      const temp = values.val();
+      if (!!temp) setPersonalStatus(temp.statusMessage);
     });
   });
-  
-  useEffect(async() => {
-	// const tempStatus = await getFireParticipants({"pid": participant.sid});
-	// if (tempStatus.data){
-		// setPersonalStatus(tempStatus.data.statusMessage);
-	// }
-	
+
+  useEffect(() => {
+    const ref = database.ref("participants/" + participant.sid);
+    ref.on("value", (values) => {
+      const temp = values.val();
+      if (!!temp) setEmote(temp.emote);
+    });
+  });
+
+  useEffect(async () => {
     setVideoTracks(trackpubsToTracks(participant.videoTracks));
     setAudioTracks(trackpubsToTracks(participant.audioTracks));
 
@@ -138,8 +187,8 @@ const Participant = ({ participant }) => {
           {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
         </Button>
       </div>
-      {/* INFO FRMO PERSONAL STATUS ENDPOINT HERE */}
       <p className="personalStatus">{personalStatus}</p>
+      {emote && StrToEmote(emote)}
     </div>
   );
 };
