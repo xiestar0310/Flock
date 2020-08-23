@@ -83,6 +83,7 @@ app.post("/video/setFireRoom", (req, res) => {
         database.ref("rooms/" + req.body.sid).set({
             workTime: req.body.workTime,
             restTime: req.body.breakTime,
+			startTime: req.body.startTime,
         });
         res.status(200).json("cool");
     }catch(err){
