@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import VideoChat from "./VideoChat";
 import GooseIcon from "./assets/goose-stand.ico";
-import GoosePic from "./assets/goose-fly.png";
+import Logo from "./assets/flock.png";
 import { Navbar } from "react-bootstrap";
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
         <Navbar.Brand>
           <img
             alt="flying-goose"
-            src={GoosePic}
+            src={Logo}
             width="30"
             height="30"
             className="d-inline-block align-top"

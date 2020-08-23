@@ -36,7 +36,9 @@ const Room = ({
   let breakActivities = [
     "take a karaoke break, play and sing along to a song you like",
     "play a quick round of charades",
-    <a href="https://skribbl.io/">try out this online game</a>,
+    <a target="_blank" href="https://skribbl.io/">
+      try out this online game
+    </a>,
     "see who can take the best picture during the break time",
     "stand up and do 30 jumping jacks",
     "try doing 20 squats",

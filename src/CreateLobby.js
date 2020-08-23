@@ -1,6 +1,6 @@
 import React from "react";
 import "./Lobby.css";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 const CreateLobby = ({
   username,
@@ -13,7 +13,6 @@ const CreateLobby = ({
   handleBreakTimeChange,
   handleSubmit,
 }) => {
-  
   return (
     <div className="lobbyContainer">
       <h3>Create a Room</h3>
@@ -39,6 +38,17 @@ const CreateLobby = ({
             required
           />
         </Form.Group>
+
+        <Alert variant="info" className="pomodoro">
+          We recommend scheduling 25 minutes of work with 5 minute breaks
+          according to the pomodoro technique.{" "}
+          <a
+            target="_blank"
+            href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+          >
+            Learn more here!
+          </a>
+        </Alert>
 
         <Row>
           <Col>
