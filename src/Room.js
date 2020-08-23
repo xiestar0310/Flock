@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Video from "twilio-video";
 import Participant from "./Participant";
-import { getRoom, setFireRoom, getFireTime } from "./utils";
+import {
+  getRoom,
+  setFireRoom,
+  getFireTime,
+  setFireParticipants,
+} from "./utils";
 import { Button, Card, Row, Col, Alert, Form } from "react-bootstrap";
 import "./Room.css";
 
@@ -52,6 +57,17 @@ const Room = ({
   const [breakActivity, setBreakActivity] = useState(
     breakActivities[Math.floor(Math.random() * breakActivities.length)]
   );
+  const [personalStatus, setPersonalStatus] = useState("");
+  const [emote, setEmote] = useState("");
+
+  const handlePersonalStatus = useCallback((event) => {
+    setPersonalStatus(event.target.value);
+    setFireParticipants({
+      pid: room.localParticipant.sid,
+      statusMessage: personalStatus,
+      emote: emote,
+    });
+  });
 
   const startTimer = () => {
     setInterval(() => {
@@ -116,6 +132,13 @@ const Room = ({
         setRoomDetails(rr.data);
         setBeginTime(new Date(rr.data.dateCreated).getTime());
       }
+
+      setFireParticipants({
+        pid: room.localParticipant.sid,
+        statusMessage: personalStatus,
+        emote: emote,
+      });
+
       setRoom(room);
       room.on("participantConnected", participantConnected);
       room.on("participantDisconnected", participantDisconnected);
@@ -145,6 +168,8 @@ const Room = ({
       key={participant.sid}
       participant={participant}
       remote={true}
+      personalStatus={personalStatus}
+      handlePersonalStatus={handlePersonalStatus}
     />
   ));
 
@@ -194,26 +219,46 @@ const Room = ({
               )}
             </h5>
           </Col>
-          <Col md={7}>
+          <Col md={4}>
             <div className="local-participant">
               {room ? (
                 <Participant
                   key={room.localParticipant.sid}
                   participant={room.localParticipant}
                   remote={false}
+                  personalStatus={personalStatus}
+                  handlePersonalStatus={handlePersonalStatus}
                 />
               ) : (
                 ""
               )}
             </div>
           </Col>
+          <Col md={3}>
+            <Form className="statusForm">
+              <Form.Group>
+                <Form.Label>Set your status:</Form.Label>
+                <Form.Control
+                  type="text"
+                  as="textarea"
+                  rows="2"
+                  id="status"
+                  onChange={handlePersonalStatus}
+                  maxLength="150"
+                ></Form.Control>
+                <Form.Text className="text-muted">
+                  Let others know where you went and/or your current status
+                </Form.Text>
+              </Form.Group>
+            </Form>
+          </Col>
           <Button className="logoutBtn" onClick={handleLogout}>
             Log Out
           </Button>
         </Row>
       </Card>
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
+      <h5 className="remoteTitle">Remote Participants</h5>
+      <div className="remoteParticipants">{remoteParticipants}</div>
     </div>
   );
 };

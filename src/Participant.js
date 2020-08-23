@@ -8,18 +8,16 @@ import {
   FaVolumeMute,
 } from "react-icons/fa";
 import { Button, Form } from "react-bootstrap";
+import { getFireParticipants } from "./utils";
 
-const Participant = ({ participant, remote }) => {
+const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [muteButton, setMuteButton] = useState(false);
   const [volumeButton, setVolumeButton] = useState(false);
   const [videoButton, setVideoButton] = useState(false);
-  const [personalStatus, setPersonalStatus] = useState("");
 
-  const handlePersonalStatus = useCallback((event) => {
-    setPersonalStatus(event.target.value);
-  });
+  const personalStatus = "retrieve from db";
 
   const videoRef = useRef();
   const audioRef = useRef();
@@ -122,24 +120,7 @@ const Participant = ({ participant, remote }) => {
           {!!videoButton ? <FaVideoSlash /> : <FaVideo />}
         </Button>
       </div>
-      {!remote && (
-        <Form className="statusForm">
-          <Form.Group>
-            <Form.Label>Set your status:</Form.Label>
-            <Form.Control
-              type="text"
-              as="textarea"
-              rows="2"
-              id="status"
-              onChange={handlePersonalStatus}
-              maxLength="150"
-            ></Form.Control>
-            <Form.Text className="text-muted">
-              Let others know where you went and/or your current status
-            </Form.Text>
-          </Form.Group>
-        </Form>
-      )}
+      {/* INFO FRMO PERSONAL STATUS ENDPOINT HERE */}
       <p className="personalStatus">{personalStatus}</p>
     </div>
   );
