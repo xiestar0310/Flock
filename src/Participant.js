@@ -16,6 +16,8 @@ import 'firebase/database';
 const firebaseConfig = secrets;
 firebase.initializeApp(firebaseConfig);
 
+const database = firebase.database();
+
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
@@ -34,11 +36,20 @@ const Participant = ({ participant }) => {
       .filter((track) => track !== null);
   };
 
+  useEffect(() => {
+	const ref = database.ref("participants/" + participant.sid);
+    ref.on("value", (values) => {
+	  const temp = values.val();
+	  if (!!temp) setPersonalStatus(temp.statusMessage);
+    });
+  });
+  
   useEffect(async() => {
-	const tempStatus = await getFireParticipants({"pid": participant.sid});
-	if (tempStatus.data){
-		setPersonalStatus(tempStatus.data.statusMessage);
-	}
+	// const tempStatus = await getFireParticipants({"pid": participant.sid});
+	// if (tempStatus.data){
+		// setPersonalStatus(tempStatus.data.statusMessage);
+	// }
+	
     setVideoTracks(trackpubsToTracks(participant.videoTracks));
     setAudioTracks(trackpubsToTracks(participant.audioTracks));
 

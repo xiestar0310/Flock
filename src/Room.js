@@ -62,13 +62,16 @@ const Room = ({
 
   const handlePersonalStatus = useCallback((event) => {
     setPersonalStatus(event.target.value);
-    setFireParticipants({
+  });
+
+  const submitPersonalStatus = () => {
+	setFireParticipants({
       pid: room.localParticipant.sid,
       statusMessage: personalStatus,
       emote: emote,
     });
-  });
-
+  };
+  
   const startTimer = () => {
     setInterval(() => {
       if (beginTime) {
@@ -246,6 +249,7 @@ const Room = ({
                   onChange={handlePersonalStatus}
                   maxLength="150"
                 ></Form.Control>
+				<Button onClick={submitPersonalStatus}>Submit</Button>
                 <Form.Text className="text-muted">
                   Let others know where you went and/or your current status
                 </Form.Text>
